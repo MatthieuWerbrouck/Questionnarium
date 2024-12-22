@@ -1,10 +1,4 @@
-const startButton = document.getElementById('start-btn');
-const nextButton = document.getElementById('next-btn');
-const questionContainerElement = document.getElementById('question-container');
-const questionElement = document.getElementById('question');
-const answerButtonsElement = document.getElementById('answer-buttons');
 
-let shuffledQuestions, currentQuestionIndex;
 
 const questions = [
     {
@@ -801,29 +795,38 @@ const questions = [
     }
     // Ajoutez plus de questions ici
 ]
+const startButton = document.getElementById('start-btn');
+const nextButton = document.getElementById('next-btn');
+const questionContainerElement = document.getElementById('question-container');
+const questionElement = document.getElementById('question');
+const answerButtonsElement = document.getElementById('answer-buttons');
+
+let currentQuestionIndex;
+
 
 startButton.addEventListener('click', startGame);
-nextButton.addEventListener('click', () => {
-    currentQuestionIndex++;
-    setNextQuestion();
-});
+nextButton.addEventListener('click', setNextQuestion);
 
 function startGame() {
     startButton.classList.add('hide');
-    shuffledQuestions = questions.sort(() => Math.random() - 0.5);
-    currentQuestionIndex = 0;
     questionContainerElement.classList.remove('hide');
     setNextQuestion();
 }
 
 function setNextQuestion() {
     resetState();
-    showQuestion(shuffledQuestions[currentQuestionIndex]);
+    showQuestion(getRandomQuestion());
+}
+
+function getRandomQuestion() {
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    return questions[randomIndex];
 }
 
 function showQuestion(question) {
     questionElement.innerText = question.question;
-    question.answers.forEach(answer => {
+    const shuffledAnswers = shuffleArray(question.answers);
+    shuffledAnswers.forEach(answer => {
         const button = document.createElement('button');
         button.innerText = answer.text;
         button.classList.add('btn');
@@ -846,16 +849,10 @@ function resetState() {
 function selectAnswer(e) {
     const selectedButton = e.target;
     const correct = selectedButton.dataset.correct;
-    setStatusClass(document.body, correct);
     Array.from(answerButtonsElement.children).forEach(button => {
         setStatusClass(button, button.dataset.correct);
     });
-    if (shuffledQuestions.length > currentQuestionIndex + 1) {
-        nextButton.classList.remove('hide');
-    } else {
-        startButton.innerText = 'Recommencer';
-        startButton.classList.remove('hide');
-    }
+    nextButton.classList.remove('hide');
 }
 
 function setStatusClass(element, correct) {
@@ -870,4 +867,12 @@ function setStatusClass(element, correct) {
 function clearStatusClass(element) {
     element.classList.remove('correct');
     element.classList.remove('wrong');
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
