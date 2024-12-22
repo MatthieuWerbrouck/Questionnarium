@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire sur les Œuvres Célèbres</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Questionnaire sur les Œuvres Célèbres</h1>
+        <form id="questionnaire-form">
+            <div class="question">
+                <label for="question1">1. Qui a peint la Mona Lisa ?</label>
+                <input type="text" id="question1" name="question1" required>
+            </div>
+            <div class="question">
+                <label for="question2">2. Quel est le titre de la célèbre sculpture de Michel-Ange représentant un jeune homme ?</label>
+                <input type="text" id="question2" name="question2" required>
+            </div>
+            <div class="question">
+                <label for="question3">3. Quel roman a été écrit par Victor Hugo et se déroule à Paris ?</label>
+                <input type="text" id="question3" name="question3" required>
+            </div>
+            <button type="submit">Soumettre</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
